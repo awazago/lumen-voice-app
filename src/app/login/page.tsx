@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import AuthCard from "@/components/AuthCard";
+import FormField from "@/components/FormField";
+import AuthBackground from "@/components/AuthBackground";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -41,73 +44,52 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-deep text-white">
-      <div className="w-full max-w-md rounded-2xl bg-gray-mid p-8 shadow-2xl">
-        <div className="text-center">
-          <h1 className="font-display text-4xl font-bold">Lumen Voice</h1>
-          <p className="mt-2 text-gray-light">
-            Faça login para libertar a sua criatividade
-          </p>
-        </div>
+    <main className="relative flex min-h-screen items-center justify-center bg-gray-deep px-4 text-white">
+      <AuthBackground />
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          <div className="relative">
-            <label htmlFor="email" className="sr-only">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border-2 border-gray-light/20 bg-gray-deep px-4 py-3 text-white outline-none transition-all focus:ring-2 focus:ring-accent-purple"
-              placeholder="seu@email.com"
-            />
-          </div>
+      <AuthCard
+        title="Lumen Voice"
+        footer={
+          <>
+            Não tem uma conta?{" "}
+            <Link href="/signup" className="font-semibold text-primary-400 underline-offset-4 hover:underline">
+              Sign Up
+            </Link>
+          </>
+        }
+      >
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <FormField
+            id="email"
+            label="Email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-          <div className="relative">
-            <label htmlFor="password" className="sr-only">
-              Senha
-            </label>
-            <input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border-2 border-gray-light/20 bg-gray-deep px-4 py-3 text-white outline-none transition-all focus:ring-2 focus:ring-accent-purple"
-              placeholder="Senha"
-            />
-          </div>
+          <FormField
+            id="password"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-          {error && (
-            <p className="text-center text-sm font-semibold text-red-500">
-              {error}
-            </p>
-          )}
+          {error && <p className="text-center text-sm font-semibold text-red-500">{error}</p>}
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-lg bg-gradient-to-r from-primary-blue to-accent-purple px-4 py-3 font-bold text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-mid disabled:opacity-50"
+            className="mt-2 w-full rounded-full bg-gradient-to-r from-primary-blue to-accent-purple px-6 py-3 font-semibold text-white shadow-lg transition hover:opacity-90 disabled:opacity-50"
           >
-            {isLoading ? "Entrando..." : "Entrar"}
+            {isLoading ? "Entrando..." : "Sign In"}
           </button>
         </form>
-
-        <p className="mt-6 text-center text-sm text-gray-light">
-          Não tem uma conta?{" "}
-          <Link
-            href="/signup"
-            className="font-semibold text-primary-blue underline-offset-4 hover:underline"
-          >
-            Crie uma conta
-          </Link>
-        </p>
-      </div>
+      </AuthCard>
     </main>
   );
 }
