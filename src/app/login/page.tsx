@@ -1,96 +1,113 @@
 "use client";
 
-import { useState } from 'react';
+import { useState } from "react";
+import Link from "next/link";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setIsLoading(true);
+    setError("");
 
     try {
       const formData = new URLSearchParams();
-      formData.append('username', email);
-      formData.append('password', password);
+      formData.append("username", email);
+      formData.append("password", password);
 
-      const response = await fetch('http://127.0.0.1:8000/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+      const response = await fetch("http://127.0.0.1:8000/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: formData.toString(),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || 'Falha no login');
+        throw new Error(errorData.detail || "Falha no login");
       }
 
       const data = await response.json();
-      
-      localStorage.setItem('accessToken', data.access_token);
-      
-      // ▼▼▼ ALTERAÇÃO PRINCIPAL AQUI ▼▼▼
-      // Removemos o alerta e ativamos o redirecionamento para a página principal
-      window.location.href = '/';
-
+      localStorage.setItem("accessToken", data.access_token);
+      window.location.href = "/";
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-      <div className="w-full max-w-md p-8 space-y-6 bg-gray-800 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-center text-blue-400">Lumen Voice</h1>
-        <h2 className="text-xl font-bold text-center">Login</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+    <main className="flex min-h-screen items-center justify-center bg-gray-deep text-white">
+      <div className="w-full max-w-md rounded-2xl bg-gray-mid p-8 shadow-2xl">
+        <div className="text-center">
+          <h1 className="font-display text-4xl font-bold">Lumen Voice</h1>
+          <p className="mt-2 text-gray-light">
+            Faça login para libertar a sua criatividade
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+          <div className="relative">
+            <label htmlFor="email" className="sr-only">
               Email
             </label>
             <input
               id="email"
-              name="email"
               type="email"
+              autoComplete="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border-2 border-gray-light/20 bg-gray-deep px-4 py-3 text-white outline-none transition-all focus:ring-2 focus:ring-accent-purple"
+              placeholder="seu@email.com"
             />
           </div>
-          
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+
+          <div className="relative">
+            <label htmlFor="password" className="sr-only">
               Senha
             </label>
             <input
               id="password"
-              name="password"
               type="password"
+              autoComplete="current-password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 mt-1 text-white bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full rounded-lg border-2 border-gray-light/20 bg-gray-deep px-4 py-3 text-white outline-none transition-all focus:ring-2 focus:ring-accent-purple"
+              placeholder="Senha"
             />
           </div>
-          
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-          
-          <div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500"
-            >
-              Entrar
-            </button>
-          </div>
+
+          {error && (
+            <p className="text-center text-sm font-semibold text-red-500">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full rounded-lg bg-gradient-to-r from-primary-blue to-accent-purple px-4 py-3 font-bold text-white transition-all hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-mid disabled:opacity-50"
+          >
+            {isLoading ? "Entrando..." : "Entrar"}
+          </button>
         </form>
+
+        <p className="mt-6 text-center text-sm text-gray-light">
+          Não tem uma conta?{" "}
+          <Link
+            href="/signup"
+            className="font-semibold text-primary-blue underline-offset-4 hover:underline"
+          >
+            Crie uma conta
+          </Link>
+        </p>
       </div>
-    </div>
+    </main>
   );
 }

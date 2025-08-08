@@ -1,3 +1,66 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* === Tailwind v4 — Tema centralizado via @theme === */
+@theme {
+  /* ====== Fontes ====== */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-poppins);
+  /* Se quiser mono depois: --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace; */
+
+  /* ====== Radius/Shadow (opcional) ====== */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* ====== Cores base (escala cinza) ====== */
+  --color-gray-50:  #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* ====== Suas cores custom (escala e nomes curtos) ====== */
+  /* Cores “brand” principais */
+  --color-primary-50:  #ebf3ff;
+  --color-primary-100: #d7e7ff;
+  --color-primary-200: #b0cfff;
+  --color-primary-300: #89b7ff;
+  --color-primary-400: #629fff;
+  --color-primary-500: #007BFF; /* base */
+  --color-primary-600: #0069d9;
+  --color-primary-700: #0056b3;
+  --color-primary-800: #00408a;
+  --color-primary-900: #002d61;
+
+  --color-accent-50:  #f4e9ff;
+  --color-accent-100: #ead6ff;
+  --color-accent-200: #d4adff;
+  --color-accent-300: #bd85ff;
+  --color-accent-400: #a65cff;
+  --color-accent-500: #8A2BE2; /* base (roxo) */
+  --color-accent-600: #731fca;
+  --color-accent-700: #5d17a8;
+  --color-accent-800: #481283;
+  --color-accent-900: #330c5e;
+
+  --color-magenta-500: #E000B2;
+
+  /* ====== Aliases semânticos (os que você já usa) ====== */
+  --color-gray-deep:    #121212;     /* bg padrão */
+  --color-gray-mid:     #1A1A1A;     /* cards/containers */
+  --color-gray-light:   #A0A0A0;     /* textos secundários */
+  --color-primary-blue: var(--color-primary-500);
+  --color-accent-purple:var(--color-accent-500);
+  --color-accent-magenta: var(--color-magenta-500);
+}
+
+/* (Opcional) ajustes globais simples */
+html, body {
+  min-height: 100%;
+}
