@@ -74,8 +74,8 @@ export default function PricingPage() {
           </div>
           <ul className="space-y-4 text-gray-light flex-grow">
             <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> 200 Créditos / Mês</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Core'</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Ultra'</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo &apos;Core&apos;</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo &apos;Ultra&apos;</li>
           </ul>
           <button
             onClick={() => handleSubscribe(PRICE_IDS.hobby)}
@@ -96,8 +96,8 @@ export default function PricingPage() {
           </div>
           <ul className="space-y-4 text-gray-light flex-grow">
             <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> 600 Créditos / Mês</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Core'</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Ultra'</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo &apos;Core&apos;</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo &apos;Ultra&apos;</li>
             <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Suporte prioritário (em breve)</li>
           </ul>
           <button
