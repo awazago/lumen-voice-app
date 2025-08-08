@@ -31,8 +31,12 @@ export default function SignupPage() {
 
       alert("Cadastro realizado com sucesso! Redirecionando para login.");
       window.location.href = "/login";
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocorreu um erro inesperado.');
+      }
     } finally {
       setIsLoading(false);
     }

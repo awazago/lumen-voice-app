@@ -1,6 +1,7 @@
 "use client";
 
 import { JSX, useEffect, useState } from "react";
+import Image from 'next/image';
 
 type User = { email: string; credits: number };
 
@@ -99,8 +100,12 @@ export default function HomePage() {
 
       const cost = model === "core" ? 1 : 5;
       setUser((u) => (u ? { ...u, credits: u.credits - cost } : u));
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocorreu um erro inesperado.');
+      }
     } finally {
       setIsGenerating(false);
     }
@@ -121,7 +126,7 @@ export default function HomePage() {
         <aside className="hidden w-64 flex-col justify-between rounded-2xl bg-gray-mid/60 p-4 ring-1 ring-white/5 backdrop-blur md:flex">
           <div className="space-y-6">
             <div className="flex items-center gap-3 px-1">
-              <img
+              <Image
                 src="/logo.png"
                 alt="Lumen Voice Logo"
                 className="h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14"
@@ -324,7 +329,7 @@ export default function HomePage() {
             {generatedImageUrl && (
               <div className="mt-8">
                 <h3 className="text-lg font-semibold text-white">Resultado</h3>
-                <img
+                <Image
                   src={generatedImageUrl}
                   alt="Imagem gerada"
                   className="mt-3 w-full rounded-xl ring-1 ring-white/10"

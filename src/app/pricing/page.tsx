@@ -45,8 +45,12 @@ export default function PricingPage() {
       // Redireciona o utilizador para a página de pagamento do Stripe
       window.location.href = session.url;
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocorreu um erro inesperado.');
+      }
     } finally {
       setIsLoading(null);
     }
@@ -70,8 +74,8 @@ export default function PricingPage() {
           </div>
           <ul className="space-y-4 text-gray-light flex-grow">
             <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> 200 Créditos / Mês</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo "Core"</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo "Ultra"</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Core'</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Ultra'</li>
           </ul>
           <button
             onClick={() => handleSubscribe(PRICE_IDS.hobby)}
@@ -92,8 +96,8 @@ export default function PricingPage() {
           </div>
           <ul className="space-y-4 text-gray-light flex-grow">
             <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> 600 Créditos / Mês</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo "Core"</li>
-            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo "Ultra"</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Core'</li>
+            <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Acesso ao modelo 'Ultra'</li>
             <li className="flex items-center"><span className="text-primary-blue mr-2">✔</span> Suporte prioritário (em breve)</li>
           </ul>
           <button

@@ -36,8 +36,12 @@ export default function LoginPage() {
       const data = await response.json();
       localStorage.setItem("accessToken", data.access_token);
       window.location.href = "/";
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocorreu um erro inesperado.');
+      }
     } finally {
       setIsLoading(false);
     }
