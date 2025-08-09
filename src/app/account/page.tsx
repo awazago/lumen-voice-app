@@ -64,7 +64,7 @@ export default function AccountPage() {
         setCurrentPassword('');
         setNewPassword('');
 
-    } catch (err: any) {
+    } catch (err) {
         if (err instanceof Error) {
             setFeedback({ message: err.message, type: 'error' }); //setError(err.message); 
         } else {
