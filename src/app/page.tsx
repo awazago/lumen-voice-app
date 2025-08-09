@@ -121,8 +121,8 @@ export default function HomePage() {
     window.location.href = "/login";
   };
 
-  const handleGenerate = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleGenerate = async (_e: React.FormEvent) => {
+    _e.preventDefault();
     if (!user) return;
     setIsGenerating(true);
     setError("");

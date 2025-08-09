@@ -13,7 +13,7 @@ type User = {
 export default function AccountPage() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  
+  const [error, setError] = useState("");
   // Estados para o formulário de senha
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -43,8 +43,8 @@ export default function AccountPage() {
     fetchUserData();
   }, []);
 
-  const handlePasswordChange = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handlePasswordChange = async (_e: React.FormEvent) => {
+    _e.preventDefault();
     setFeedback({ message: '', type: '' });
     const token = localStorage.getItem('accessToken');
 
@@ -65,7 +65,11 @@ export default function AccountPage() {
         setNewPassword('');
 
     } catch (err: any) {
-        setFeedback({ message: err.message, type: 'error' });
+        if (err instanceof Error) {
+            setFeedback({ message: err.message, type: 'error' }); //setError(err.message); 
+        } else {
+            setError('Ocorreu um erro inesperado.');
+        }
     }
   };
 
@@ -80,7 +84,11 @@ export default function AccountPage() {
         const data = await response.json();
         window.location.href = data.url; // Redireciona para o portal do Stripe
     } catch (err: any) {
-        setFeedback({ message: err.message, type: 'error' });
+        if (err instanceof Error) {
+            setError(err.message); // ou setFeedback({ message: err.message, type: 'error' });
+        } else {
+            setError('Ocorreu um erro inesperado.');
+        }
     }
   };
 

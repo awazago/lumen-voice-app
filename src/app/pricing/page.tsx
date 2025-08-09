@@ -2,7 +2,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 // Definimos os nossos tipos para clareza
 type User = { plan: string };
@@ -74,8 +73,12 @@ export default function PricingPage() {
         if (!response.ok) throw new Error('Falha ao iniciar o checkout.');
         const session = await response.json();
         window.location.href = session.url;
-    } catch (err: any) {
-        setError(err.message);
+    } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message); // ou setFeedback({ message: err.message, type: 'error' });
+        } else {
+          setError('Ocorreu um erro inesperado.');
+        }
     } finally {
         setIsLoading(null);
     }
