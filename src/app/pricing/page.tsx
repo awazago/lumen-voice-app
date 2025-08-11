@@ -17,7 +17,7 @@ type Plan = {
 // IDs dos Preços do Stripe (do seu .env do backend)
 const PRICE_IDS = {
   hobby: 'price_1RtrBy90VgolxkM6v2UE2y9i', // SUBSTITUA PELO SEU PRICE ID REAL DO STRIPE
-  pro: 'rice_1RtrCg90VgolxkM6yLsdB2F6_...',   // SUBSTITUA PELO SEU PRICE ID REAL DO STRIPE
+  pro: 'price_1RtrCg90VgolxkM6yLsdB2F6',   // SUBSTITUA PELO SEU PRICE ID REAL DO STRIPE
 };
 
 // Dados dos nossos planos
