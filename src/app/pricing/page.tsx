@@ -16,15 +16,15 @@ type Plan = {
 
 // IDs dos Preços do Stripe (do seu .env do backend)
 const PRICE_IDS = {
-  hobby: 'price_1RtrBy90VgolxkM6v2UE2y9i', // SUBSTITUA PELO SEU PRICE ID REAL DO STRIPE
+  hobby: 'price_1Rw1WK90VgolxkM6AB2T7bHE', // SUBSTITUA PELO SEU PRICE ID REAL DO STRIPE
   pro: 'price_1RtrCg90VgolxkM6yLsdB2F6',   // SUBSTITUA PELO SEU PRICE ID REAL DO STRIPE
 };
 
 // Dados dos nossos planos
 const plans: Plan[] = [
   { id: 'free', name: 'Free', price: 'R$0', priceId: null, credits: '10 Créditos', features: ['Acesso ao modelo "Core"'] },
-  { id: 'hobby', name: 'Hobby', price: 'R$29,90', priceId: PRICE_IDS.hobby, credits: '200 Créditos / Mês', features: ['Tudo do Free', 'Acesso ao modelo "Ultra"'] },
-  { id: 'pro', name: 'Pro', price: 'R$79,90', priceId: PRICE_IDS.pro, credits: '600 Créditos / Mês', features: ['Tudo do Hobby', 'Suporte prioritário (em breve)'] },
+  { id: 'hobby', name: 'Hobby', price: 'R$35,00', priceId: PRICE_IDS.hobby, credits: '200 Créditos / Mês', features: ['Tudo do Free', 'Acesso ao modelo "Ultra"'] },
+  { id: 'pro', name: 'Pro', price: 'R$85,00', priceId: PRICE_IDS.pro, credits: '600 Créditos / Mês', features: ['Tudo do Hobby', 'Suporte prioritário (em breve)'] },
 ];
 
 

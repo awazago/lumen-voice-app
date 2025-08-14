@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from "next/link";
 
 type User = { email: string; credits: number; plan: string; };
+type ModelCosts = { [key: string]: number };
 
 const examplePrompts = [
   {
@@ -86,26 +87,34 @@ export default function HomePage() {
   const [aspectRatio, setAspectRatio] = useState("1:1");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedImageUrl, setGeneratedImageUrl] = useState("");
+  const [modelCosts, setModelCosts] = useState<ModelCosts | null>(null);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
+useEffect(() => {
+    const fetchData = async () => {
       const token = localStorage.getItem('accessToken');
       if (!token) {
         window.location.href = '/login';
         return;
       }
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Falha na autenticação');
-        }
-        const userData: User = await response.json();
+        // Busca os dados do utilizador e os custos em paralelo
+        const [userResponse, costsResponse] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+            headers: { 'Authorization': `Bearer ${token}` },
+          }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/config/costs`)
+        ]);
+
+        if (!userResponse.ok) throw new Error('Falha na autenticação');
+        
+        const userData: User = await userResponse.json();
         setUser(userData);
+
+        if (costsResponse.ok) {
+            const costsData = await costsResponse.json();
+            setModelCosts(costsData.image_generation);
+        }
+
       } catch (e) {
         localStorage.removeItem('accessToken');
         window.location.href = '/login';
@@ -113,8 +122,9 @@ export default function HomePage() {
         setIsLoading(false);
       }
     };
-    fetchUserData();
+    fetchData();
   }, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -238,7 +248,6 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* ▼▼▼ ÁREA ATUALIZADA ▼▼▼ */}
               <div className="flex items-center space-x-4 text-sm">
                 <Link href="/pricing" className="font-semibold text-primary-blue hover:text-white transition-colors">
                   Planos & Upgrade
@@ -256,8 +265,7 @@ export default function HomePage() {
                   Logout
                 </button>
               </div>
-              {/* ▲▲▲ FIM DA ÁREA ATUALIZADA ▲▲▲ */}
-
+              
             </div>
             {user && user.credits < 10 && user.plan === 'free' && (
               <div className="bg-yellow-900/50 border border-yellow-400 text-yellow-300 px-4 py-3 rounded-lg text-center mb-6">
@@ -302,8 +310,15 @@ export default function HomePage() {
                     id="model" value={model} onChange={(e) => setModel(e.target.value)}
                     className="w-full rounded-xl border border-white/10 bg-gray-deep px-4 py-3 text-white outline-none transition focus:ring-2 focus:ring-primary-blue"
                   >
-                    <option value="core">Core (1 crédito)</option>
-                    <option value="ultra">Ultra (5 créditos)</option>
+                    {modelCosts ? (
+                      Object.entries(modelCosts).map(([modelKey, cost]) => (
+                        <option key={modelKey} value={modelKey}>
+                          {modelKey.charAt(0).toUpperCase() + modelKey.slice(1)} ({cost} crédito{cost > 1 ? 's' : ''})
+                        </option>
+                      ))
+                    ) : (
+                      <option value="core">Core (1 crédito)</option>
+                    )}
                   </select>
                 </div>
                 <div>
